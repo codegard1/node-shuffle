@@ -47,6 +47,16 @@ export class PlayingCard extends Component {
     }
     return value + suit;
   }
+
+  render() {
+    return (
+      <div>
+        <span>{this.state.suit}</span><br />
+        <span>{this.state.description}</span><br />
+        <span>{this.state.sort}</span>
+      </div>
+    );
+  }
 }
 
 PlayingCard.propTypes = {
