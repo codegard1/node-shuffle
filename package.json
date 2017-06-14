@@ -38,6 +38,7 @@
     "node": ">=0.4.0"
   },
   "dependencies": {
+    "prop-types": "^15.5.10"
   },
   "devDependencies": {
     "mocha": "latest",
