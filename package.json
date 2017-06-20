@@ -19,6 +19,11 @@
       "name": "Troy Goode",
       "email": "troygoode@gmail.com",
       "web": "https://github.com/troygoode/"
+    },
+    {
+      "name": "Chris Odegard",
+      "email": "c.odegard@gmail.com",
+      "web": "https://github.com/codegard1/"
     }
   ],
   "licenses": [
@@ -38,6 +43,7 @@
     "node": ">=0.4.0"
   },
   "dependencies": {
+    "react": "^15.5.10",
     "prop-types": "^15.5.10"
   },
   "devDependencies": {

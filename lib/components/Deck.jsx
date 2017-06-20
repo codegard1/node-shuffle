@@ -4,7 +4,10 @@ import * as T from "prop-types";
 export class Deck extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      cards: [],
+      length: 0
+    };
 
     this._reset = this._reset.bind(this);
     this._shuffle = this._shuffle.bind(this);
@@ -22,43 +25,64 @@ export class Deck extends Component {
   }
 
   _reset() {
-    this.cards = cards.slice(0);
-    this.length = this.cards.length;
+    const cards = this.state.cards.slice(0);
+    const length = cards.length;
+    this.setState({
+      cards,
+      length
+    });
   }
   _shuffle() {
-    fisherYates(this.cards);
+    const cards = this.fisherYates(this.state.cards);
+    this.setState({ cards });
   }
 
   _deal(numberOfCards, arrayOfHands) {
-    for (var i = 0; i < numberOfCards; i++)
-      for (var j = 0; j < arrayOfHands.length; j++)
+    let cards = this.state.cards;
+    for (let i = 0; i < numberOfCards; i++)
+      for (let j = 0; j < arrayOfHands.length; j++)
         arrayOfHands[j].push(this.cards.pop());
-    this.length = this.cards.length;
+    let length = cards.length;
+    this.setState({ cards, length });
   }
 
   _draw(num) {
+    let cards = this.state.cards;
+    let length = cards.length;
+    let ret = [];
+
+    // when no number is specified
     if (!num || num <= 1) {
-      this.length = this.cards.length - 1;
-      return this.cards.pop();
+      length = cards.length - 1;
+      return cards.pop();
     }
 
-    var ret = [];
-    for (var i = 0; i < num; i++)
-      ret.push(this.cards.pop());
-    this.length = this.cards.length;
-    return ret;
+    // when a number is specified
+    if (num && num >= 1) {
+      for (let i = 0; i < num; i++)
+        ret.push(cards.pop());
+      length = cards.length;
+      return ret;
+    }
+
+    this.setState({ cards, length });
   }
 
   _drawFromBottomOfDeck(num) {
+    let cards = this.state.cards;
+    let length = cards.length;
+
     if (!num || num < 1) {
       num = 1;
     }
 
-    var ret = [];
-    for (var i = 0; i < num; i++) {
-      ret.push(this.cards.shift());
+    let ret = [];
+    for (let i = 0; i < num; i++) {
+      ret.push(cards.shift());
     }
-    this.length = this.cards.length;
+    length = cards.length;
+
+    this.setState({ cards, length });
 
     if (ret.length === 1) {
       return ret[0];
@@ -68,35 +92,52 @@ export class Deck extends Component {
   }
 
   _drawRandom(num) {
-    var _draw = function() {
-      var index = Math.floor(random() * this.cards.length);
-      var card = this.cards[index];
-      this.cards.splice(index, 1);
-      this.length = this.cards.length;
+    let cards0 = this.state.cards;
+    let length = cards.length;
+    let ret = [];
+
+    let _draw = function() {
+      let index = Math.floor(random() * cards.length);
+      let card = cards[index];
+      cards.splice(index, 1);
+      length = cards.length;
       return card;
     };
 
     if (!num || num <= 1) {
-      return _draw.apply(this);
+      ret.push(_draw.apply(this, cards0));
     } else {
-      var cards = [];
-      for (var i = 0; i < num; i++) {
-        cards.push(_draw.apply(this));
+      let cards = [];
+      for (let i = 0; i < num; i++) {
+        cards.push(_draw.apply(this, cards0));
       }
-      return cards;
+      ret.push(cards);
     }
+
+    this.setState({ cards: cards0, length });
+    return ret;
   }
 
   _putOnTopOfDeck(cards) {
-    if (!cards instanceof Array) this.cards.push(cards);
-    else for (var i = 0; i < cards.length; i++) this.cards.push(cards[i]);
-    this.length = this.cards.length;
+    let cards0 = this.state.cards;
+    let length = cards0.length;
+
+    if (!cards instanceof Array) cards0.push(cards);
+    else for (var i = 0; i < cards.length; i++) cards0.push(cards[i]);
+    length = cards0.length;
+
+    this.setState({ cards: cards0, length });
   }
 
   _putOnBottomOfDeck(cards) {
-    if (!cards instanceof Array) this.cards.unshift(cards);
-    else for (var i = 0; i < cards.length; i++) this.cards.unshift(cards[i]);
-    this.length = this.cards.length;
+    let cards0 = this.state.cards;
+    let length = cards0.length;
+
+    if (!cards instanceof Array) cards0.unshift(cards);
+    else for (var i = 0; i < cards.length; i++) cards0.unshift(cards[i]);
+    length = cards0.length;
+
+    this.setState({ cards: cards0, length });
   }
 
   //array shuffling algorithm: http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
@@ -113,7 +154,7 @@ export class Deck extends Component {
   }
 
   render() {
-    return <div>I am Deck</div>;
+    return <div> I am Deck </div>;
   }
 }
 
