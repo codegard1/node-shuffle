@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import * as T from "prop-types";
 
 export class Deck extends Component {
   constructor(props) {
@@ -93,11 +92,11 @@ export class Deck extends Component {
 
   _drawRandom(num) {
     let cards0 = this.state.cards;
-    let length = cards.length;
+    let length = cards0.length;
     let ret = [];
 
-    let _draw = function() {
-      let index = Math.floor(random() * cards.length);
+    let _draw = function(cards) {
+      let index = Math.floor(Math.random() * cards.length);
       let card = cards[index];
       cards.splice(index, 1);
       length = cards.length;
@@ -145,7 +144,7 @@ export class Deck extends Component {
     var i = arr.length;
     if (i === 0) return false;
     while (--i) {
-      var j = Math.floor(random() * (i + 1));
+      var j = Math.floor(Math.random() * (i + 1));
       var tempi = arr[i];
       var tempj = arr[j];
       arr[i] = tempj;
@@ -154,8 +153,8 @@ export class Deck extends Component {
   }
 
   render() {
-    return <div> I am Deck </div>;
+    return (<div> I am Deck </div>);
   }
 }
 
-Deck.propTypes = {};
+export default Deck;
