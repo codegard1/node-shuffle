@@ -1,5 +1,7 @@
 # shuffle
 
+### This fork has been modified specifically for use in [codegard1/blackjack](https://github.com/codegard1/blackjack/)
+
 Shuffle is a node.js package for shuffling and dealing decks of cards (or anything else you'd like to shuffle).
 
 [![NPM](https://nodei.co/npm/shuffle.png?downloads=true&stars=true)](https://nodei.co/npm/shuffle/)
